@@ -1,0 +1,16 @@
+https://leetcode.com/problems/squares-of-a-sorted-array/
+
+//Squares of a sorted array
+class Solution {
+public:
+    vector<int> ans;
+    
+    vector<int> sortedSquares(vector<int>& nums) {
+       for(auto y:nums){
+           y*=y;
+           ans.push_back(y);
+       }
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+};
