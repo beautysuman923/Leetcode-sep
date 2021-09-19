@@ -1,0 +1,32 @@
+https://leetcode.com/explore/challenge/card/september-leetcoding-challenge-2021/637/week-2-september-8th-september-14th/3971/
+
+
+//Basic Calculator
+class Solution {
+public:
+    int calculate(string s) {
+        long long ans = 0, level = 0, op = 0, sign = 1;
+        stack<long long> d;
+        d.push(1);
+        for (auto c : s) {
+            if (c == ' ')
+                continue;
+            if (c == '-' || c == '+' || c == '(' || c == ')') {
+                if (op) {
+                    ans += op*sign;
+                    op = 0;
+                }
+            }
+            if (c == '-' || c == '+') {
+                sign = (c=='-' ? -1 : 1) * d.top();
+            } else if (c>='0' && c<='9') {
+                op = op*10+c-'0';
+            } else if (c=='(') {
+                d.push(sign);
+            } else if (c==')') {
+                d.pop();
+            }
+        }
+        return ans + op*sign;
+    }
+};
