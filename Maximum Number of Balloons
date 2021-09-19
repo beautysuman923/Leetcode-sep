@@ -1,0 +1,24 @@
+https://leetcode.com/explore/challenge/card/september-leetcoding-challenge-2021/637/week-2-september-8th-september-14th/3973/
+
+
+//Maximum Number of Balloons
+class Solution {
+public:
+    int maxNumberOfBalloons(string text) {
+        int n=text.size(),c=0;
+        unordered_map<char,int> m(0);
+        if(n<=6) return 0;
+        for(int i=0;i<n;i++) m[text[i]]++;
+        for(int i=1;i<n;i++){
+            if(m['b']>=1&&m['a']>=1&&m['l']>=2&&m['o']>=2&&m['n']>=1){
+                m['b']--;
+                m['a']--;
+                m['n']--;
+                m['l']-=2;
+                m['o']-=2;
+                c++;
+            }
+        }
+        return c;
+    }
+};
