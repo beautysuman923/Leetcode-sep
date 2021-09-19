@@ -1,0 +1,39 @@
+https://leetcode.com/explore/challenge/card/september-leetcoding-challenge-2021/636/week-1-september-1st-september-7th/3961/
+
+
+//Unique Binary Search Trees ||
+class Solution {
+public:
+      vector<TreeNode *>helper(int s,int e)
+    {
+        if(s>e)
+        {
+            return {NULL};
+        }
+        if(s==e)
+        {
+            TreeNode *node=new TreeNode(s);
+            return {node};
+        }
+        vector<TreeNode *>ans;
+        for(int i=s;i<=e;i++)
+        {
+            auto left=helper(s,i-1),right=helper(i+1,e);
+            for(auto l:left)
+            {
+                for(auto r:right)
+                {
+                    TreeNode *root=new TreeNode(i);
+                    root->left=l;
+                    root->right=r;
+                    ans.push_back(root);
+                }
+            }
+        }
+        return ans;
+    }
+    vector<TreeNode*> generateTrees(int n) 
+    {
+        return helper(1,n);
+    }
+};
