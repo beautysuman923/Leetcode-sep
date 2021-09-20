@@ -1,0 +1,51 @@
+https://leetcode.com/explore/challenge/card/september-leetcoding-challenge-2021/638/week-3-september-15th-september-21st/3981/
+
+
+class Solution {
+public:
+     string tictactoe(vector<vector<int>>& moves) 
+    {
+        vector<int> row (3, 0), col (3, 0);
+        int diag1 = 0, diag2 = 0;
+        
+        int val = 1;   // val = 1 for A, -1 for B
+        string winner = "";
+        
+        for(vector<int> move : moves)
+        {
+            int x = move[0], y = move[1];
+            
+            row[x] += val;    checkWin(row[x], winner);
+            col[y] += val;    checkWin(col[y], winner);
+            
+            if(x == y) 
+            {
+                diag1 += val; checkWin(diag1, winner);
+            }
+            
+            if(x + y == 2) 
+            {
+                diag2 += val; checkWin(diag2, winner);
+            }
+            
+            if(winner == "A" or winner == "B")
+                return winner;
+            
+            val = (val == 1) ? -1 : 1;
+        }
+        
+        // no one wins
+        if(moves.size() == 9)
+            return "Draw";
+        else
+            return "Pending";
+    }
+	
+	void checkWin(int num, string &winner)
+    {
+        if(num == 3)
+            winner = "A";
+        else if(num == -3)
+            winner = "B";
+    }
+};
