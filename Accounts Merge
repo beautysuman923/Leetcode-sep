@@ -1,0 +1,72 @@
+https://leetcode.com/problems/accounts-merge/
+
+
+class Solution {
+public:
+    vector<int> parent;
+    vector<int> rank;
+    int groupcount;
+    int find(int x){
+        if(x==parent[x]) return x;
+        
+        return parent[x] = find(parent[x]);
+    }
+    
+    void unionf(int x,int y){
+        int xroot = find(x);
+        int yroot = find(y);
+        if(xroot==yroot)
+            return;
+        groupcount--;
+        if(rank[xroot]<rank[yroot])
+            parent[xroot] = yroot;
+        else if(rank[yroot]<rank[xroot])
+            parent[yroot] = xroot;
+        else{
+            parent[yroot] = xroot;
+            rank[xroot]++;
+        }
+    }
+    
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        unordered_map<string,int> mp;
+        int n = accounts.size();
+        groupcount = n;
+        parent = vector<int>(n,0);
+        rank = vector<int>(n,0);
+        for(int i=0;i<n;i++)
+            parent[i] = i;
+     // unite the accounts which have email common
+        for(int i=0;i<n;i++){ //iterate through each account
+            int len = accounts[i].size();
+            for(int j=1;j<len;j++){//iterate through each email
+                if(mp.find(accounts[i][j])==mp.end())//if email is not observed before we create entry
+                    mp[accounts[i][j]] = i;
+                else                             // unite the two accounts which have this email in comon
+                    unionf(mp[accounts[i][j]],i);      
+            }
+        }
+        
+        int gc = groupcount;//gives groups after uniting accounts
+        vector<vector<string>> res(gc);
+        unordered_map<int,int> gind;
+        int index = 0;
+        //iterating through each email and their index(in given accounts )
+        for(auto emailindex: mp){
+            int group = find(emailindex.second);//we find group no. to which it belongs
+            if(gind.find(group)==gind.end()) {//if it doesn't exist already
+                gind[group] = index;//store it
+                res[index].push_back(accounts[emailindex.second][0]);//push name of account holder
+                res[index].push_back(emailindex.first);//push this email
+                index++;//index holds first free index in res
+            }
+            else
+                res[gind[group]].push_back(emailindex.first);//push this email to already existing account
+        }
+                
+        //sort the emails
+        for(auto& v:res) sort(v.begin()+1,v.end());//begin()+1 because at 0 index we have name
+
+        return res;
+    }
+};
