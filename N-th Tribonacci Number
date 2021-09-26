@@ -1,0 +1,13 @@
+https://leetcode.com/explore/challenge/card/september-leetcoding-challenge-2021/639/week-4-september-22nd-september-28th/3986/
+
+
+class Solution {
+public:
+    int tribonacci(int n) {
+        if(n<2) return n;
+        int a=0,b=1,c=1,d=a+b+c;
+        while(n-->2)
+            d=a+b+c,a=b,b=c,c=d;
+        return c;
+    }
+};
