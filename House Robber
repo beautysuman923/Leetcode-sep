@@ -1,0 +1,32 @@
+https://leetcode.com/problems/house-robber/
+
+
+class Solution {
+public:
+   
+     
+
+    //For every element in nums we have two choices - either to include
+	//that element or discard it. So create a DP where dp[i][0] means if **previous** 
+	//element was not included and dp[i][1] means if **previous** element was included.
+   
+        //If previous element was not included then we have two choices either to
+        //keep this element or discard it. If we keep this element then previous 
+        //element should have been discarded so we take dp[i-1][0]+nums[i]. If
+        //we discard this element then we can take dp[i-1][0]. Take the max of these two.
+      
+        //If previous element was kept, then we cannot include this element. So
+        //directly we can take dp[i-1][0].
+     
+    
+    int rob(vector<int>& nums) {
+        if(nums.size()>1){
+            nums[1]=max(nums[0],nums[1]);
+            for(int i=2;i<nums.size();i++)
+                nums[i]=max(nums[i-1],nums[i]+nums[i-2]);
+               
+        }
+          return nums.back(); 
+    }
+};
+        
