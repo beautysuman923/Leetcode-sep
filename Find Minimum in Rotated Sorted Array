@@ -1,0 +1,17 @@
+https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
+
+
+
+
+class Solution {
+public:
+    int findMin(vector<int>& nums){
+        int l=0,r=nums.size()-1;
+        while(l<=r){
+            if(nums[l]>nums[r]) l++;
+            else if(nums[l]<nums[r]) r--;
+            else if(nums[l]==nums[r]) break;
+        }
+        return nums[l];
+    }
+};
